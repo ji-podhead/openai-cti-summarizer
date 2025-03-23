@@ -27,19 +27,26 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: jipodhead/openai-cti-summarizer
+      - name : Set env variables
+        run: |
+          VERSION=${docker.VERSION}
+          USE_MS_AZURE=${docker.USE_MS_AZURE}
+          OPENAI_API_KEY=${docker.OPENAI_API_KEY}
+          echo "VERSION=$VERSION" > .env
+          echo "USE_MS_AZURE=$USE_MS_AZURE" >> .env
+          echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
 
       - name: Build and push Docker image
         id: push
-        env: 
-          OPENAI_API_KEY: ${{ env.OPENAI_API_KEY }}
-          USE_MS_AZURE: ${{ env.USE_MS_AZURE }}
-          VERSION: ${{ env.VERSION }}
-          
+        # env: 
+        #   OPENAI_API_KEY: ${{ env.OPENAI_API_KEY }}
+        #   USE_MS_AZURE: ${{ env.USE_MS_AZURE }}
+        #   VERSION: ${{ env.VERSION }}
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: jipodhead/openai-cti-summarizer:latest
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          # username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          # password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
