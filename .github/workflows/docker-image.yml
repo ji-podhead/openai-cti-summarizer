@@ -29,9 +29,9 @@ jobs:
           images: jipodhead/openai-cti-summarizer
       - name : Set env variables
         run: |
-          VERSION=${docker.VERSION}
-          USE_MS_AZURE=${docker.USE_MS_AZURE}
-          OPENAI_API_KEY=${docker.OPENAI_API_KEY}
+          VERSION=${env.VERSION}
+          USE_MS_AZURE=${env.USE_MS_AZURE}
+          OPENAI_API_KEY=${env.OPENAI_API_KEY}
           echo "VERSION=$VERSION" > .env
           echo "USE_MS_AZURE=$USE_MS_AZURE" >> .env
           echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
