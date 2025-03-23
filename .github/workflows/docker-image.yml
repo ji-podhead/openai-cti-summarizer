@@ -37,7 +37,7 @@ jobs:
           echo "USE_MS_AZURE=$USE_MS_AZURE" >> .env
           echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
           cat .env
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
 
       - name: Build and push Docker image
         id: push
