@@ -29,16 +29,20 @@ jobs:
           images: jipodhead/openai-cti-summarizer
       - name : Set env variables
         run: |
-          VERSION=${{ env.VERSION }}
-          echo $VERSION
-          USE_MS_AZURE=${{ env.USE_MS_AZURE }}
-          OPENAI_API_KEY=${{ env.OPENAI_API_KEY }}
+          VERSION=${docker.VERSION}
+          USE_MS_AZURE=${docker.USE_MS_AZURE}
+          OPENAI_API_KEY=${docker.OPENAI_API_KEY}
           echo "VERSION=$VERSION" > .env
           echo "USE_MS_AZURE=$USE_MS_AZURE" >> .env
           echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
-          cat .env
+
       - name: Build and push Docker image
         id: push
+        # ..... >>  Env variables could also be set here << .....
+        # i think tho, that this is not needed and so i created the job above that creates a env file, so this still works manually
+        # otherwise i would need to remove the line from the dockerfile
+        # all the stuff in the dockerfile could be moved to the job above
+
         # env: 
         #   OPENAI_API_KEY: ${{ env.OPENAI_API_KEY }}
         #   USE_MS_AZURE: ${{ env.USE_MS_AZURE }}
@@ -49,5 +53,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: jipodhead/openai-cti-summarizer:latest
-          # username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          # password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
